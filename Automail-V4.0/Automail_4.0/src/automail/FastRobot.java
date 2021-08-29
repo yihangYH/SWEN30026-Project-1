@@ -6,31 +6,30 @@ import simulation.Clock;
 import simulation.IMailDelivery;
 
 public class FastRobot extends Robot {
-	private static final int INDIVIDUAL_MAX_WEIGHT = 2000;
-
-    private IMailDelivery delivery;
-    private final String id;
-    /** Possible states the robot can be in */
-    public enum RobotState { DELIVERING, WAITING, RETURNING }
-    private RobotState current_state;
-    private int current_floor;
-    private int destination_floor;
-    private MailPool mailPool;
-    private boolean receivedDispatch;
-
-    private MailItem deliveryItem = null;
-
-    private int deliveryCounter;
+//	private static final int INDIVIDUAL_MAX_WEIGHT = 2000;
+//
+//    private IMailDelivery delivery;
+////    private final String id;
+//    /** Possible states the robot can be in */
+////    public enum RobotState { DELIVERING, WAITING, RETURNING }
+//    //private RobotState current_state;
+//    private int current_floor;
+//    private int destination_floor;
+//    private MailPool mailPool;
+//    private boolean receivedDispatch;
+//
+//    private MailItem deliveryItem = null;
+//
+//    private int deliveryCounter;
     
 public FastRobot(IMailDelivery delivery, MailPool mailPool, int number) {
 	super(delivery, mailPool, number);
-	this.id = "F" + number; 
-	current_state = RobotState.RETURNING;
-    current_floor = Building.getInstance().getMailroomLocationFloor();
-    this.delivery = delivery;
-    this.mailPool = mailPool;
-    this.receivedDispatch = false;
-    this.deliveryCounter = 0;
+	super.id = "F" + number; 
+//    current_floor = Building.getInstance().getMailroomLocationFloor();
+//    this.delivery = delivery;
+//    this.mailPool = mailPool;
+//    this.receivedDispatch = false;
+//    this.deliveryCounter = 0;
 }
 
 
@@ -47,8 +46,24 @@ public void operate() throws ExcessiveDeliveryException {
         	changeState(RobotState.WAITING);
         } else {
         	/** If the robot is not at the mailroom floor yet, then move towards it! */
-            moveTowards(Building.getInstance().getMailroomLocationFloor());
-        	break;
+        	if(current_floor + 1 == Building.getInstance().getMailroomLocationFloor()) {
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		break;
+        	}else if(current_floor + 2 == Building.getInstance().getMailroomLocationFloor()) {
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		break;
+        	}else if(current_floor + 3 == Building.getInstance().getMailroomLocationFloor()) {
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		break;
+        	}else{
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		break;
+        	}
         }
 	case WAITING:
         /** If the StorageTube is ready and the Robot is waiting in the mailroom then start the delivery */
@@ -74,7 +89,20 @@ public void operate() throws ExcessiveDeliveryException {
             }
 		} else {
     		/** The robot is not at the destination yet, move towards it! */
-            moveTowards(destination_floor);
+            if(current_floor + 1 == destination_floor) {
+            	moveTowards(destination_floor);
+            }else if (current_floor + 2 == destination_floor) {
+				moveTowards(destination_floor);
+				moveTowards(destination_floor);
+			}else if (current_floor + 3 == destination_floor) {
+				moveTowards(destination_floor);
+				moveTowards(destination_floor);
+				moveTowards(destination_floor);
+			}else {
+				moveTowards(destination_floor);
+				moveTowards(destination_floor);
+				moveTowards(destination_floor);
+			}
 		}
         break;
 }
@@ -109,10 +137,18 @@ public String getIdTube() {
 
 private void moveTowards(int destination) {
     if(current_floor < destination){
-        current_floor += 3;
+        current_floor ++;
     } else {
-        current_floor -= 3;
+        current_floor ++;
     }
+}
+
+
+
+@Override
+public boolean isEmpty() {
+	// TODO Auto-generated method stub
+	return (deliveryItem == null);
 }
 
 
