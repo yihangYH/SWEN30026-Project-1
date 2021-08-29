@@ -8,24 +8,24 @@ import simulation.IMailDelivery;
 /**
  * The robot delivers mail!
  */
-public class Robot {
+public abstract class Robot {
 
     private static final int INDIVIDUAL_MAX_WEIGHT = 2000;
 
-    private IMailDelivery delivery;
-    private final String id;
+    protected IMailDelivery delivery;
+    protected String id;
     /** Possible states the robot can be in */
     public enum RobotState { DELIVERING, WAITING, RETURNING }
-    private RobotState current_state;
-    private int current_floor;
-    private int destination_floor;
-    private MailPool mailPool;
-    private boolean receivedDispatch;
+    protected RobotState current_state;
+    protected int current_floor;
+    protected int destination_floor;
+    protected MailPool mailPool;
+    protected boolean receivedDispatch;
 
-    private MailItem deliveryItem = null;
-    private MailItem tube = null;
+    protected MailItem deliveryItem = null;
+    protected MailItem tube = null;
 
-    private int deliveryCounter;
+    protected int deliveryCounter;
     
 
     /**
@@ -45,7 +45,8 @@ public class Robot {
         this.deliveryCounter = 0;
     }
     
-    /**
+
+	/**
      * This is called when a robot is assigned the mail items and ready to dispatch for the delivery 
      */
     public void dispatch() {
@@ -165,5 +166,6 @@ public class Robot {
 		tube = mailItem;
 		if (tube.weight > INDIVIDUAL_MAX_WEIGHT) throw new ItemTooHeavyException();
 	}
+	
 
 }
