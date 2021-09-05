@@ -2,7 +2,6 @@ package automail;
 
 import util.Configuration;
 
-
 public class Building
 {
 

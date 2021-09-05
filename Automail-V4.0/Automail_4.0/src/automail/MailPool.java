@@ -50,11 +50,17 @@ public class MailPool {
 		ListIterator<Item> j = pool.listIterator();
 		if (pool.size() > 0) {
 			try {
-			robot.addToHand(j.next().mailItem); // hand first as we want higher priority delivered first
-			j.remove();
+			if(robot.id.contains("F")) {
+				
+			}else {
+				robot.addToHand(j.next().mailItem); // hand first as we want higher priority delivered first
+				j.remove();
+				robot.dispatch();
+			}
 			if (pool.size() > 0) {
 				robot.addToTube(j.next().mailItem);
 				j.remove();
+				robot.dispatch();
 			}
 			robot.dispatch(); // send the robot off if it has any items to deliver
 			i.remove();       // remove from mailPool queue

@@ -2,6 +2,7 @@ package automail;
 
 import automail.Robot.RobotState;
 import exceptions.ExcessiveDeliveryException;
+import exceptions.ItemTooHeavyException;
 import simulation.Clock;
 import simulation.IMailDelivery;
 
@@ -46,18 +47,23 @@ public void operate() throws ExcessiveDeliveryException {
         	changeState(RobotState.WAITING);
         } else {
         	/** If the robot is not at the mailroom floor yet, then move towards it! */
-        	if(current_floor + 1 == Building.getInstance().getMailroomLocationFloor()) {
+        	if(current_floor - 1 == Building.getInstance().getMailroomLocationFloor()) {
         		moveTowards(Building.getInstance().getMailroomLocationFloor());
-        		break;
-        	}else if(current_floor + 2 == Building.getInstance().getMailroomLocationFloor()) {
-        		moveTowards(Building.getInstance().getMailroomLocationFloor());
-        		moveTowards(Building.getInstance().getMailroomLocationFloor());
-        		break;
-        	}else if(current_floor + 3 == Building.getInstance().getMailroomLocationFloor()) {
+        		mailPool.registerWaiting(this);
+        		changeState(RobotState.WAITING);
+        	}else if(current_floor - 2 == Building.getInstance().getMailroomLocationFloor()) {
         		moveTowards(Building.getInstance().getMailroomLocationFloor());
         		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		mailPool.registerWaiting(this);
+        		changeState(RobotState.WAITING);
+//        		break;
+        	}else if(current_floor - 3 == Building.getInstance().getMailroomLocationFloor()) {
         		moveTowards(Building.getInstance().getMailroomLocationFloor());
-        		break;
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		moveTowards(Building.getInstance().getMailroomLocationFloor());
+        		mailPool.registerWaiting(this);
+        		changeState(RobotState.WAITING);
+//        		break;
         	}else{
         		moveTowards(Building.getInstance().getMailroomLocationFloor());
         		moveTowards(Building.getInstance().getMailroomLocationFloor());
@@ -107,6 +113,15 @@ public void operate() throws ExcessiveDeliveryException {
         break;
 }
 }
+
+@Override
+public void dispatch() {
+	// TODO Auto-generated method stub
+	receivedDispatch = true;
+}
+
+
+
 /**
  * Sets the route for the robot
  */
@@ -135,11 +150,29 @@ public String getIdTube() {
 
 
 
+@Override
+public void addToHand(MailItem mailItem) throws ItemTooHeavyException {
+	// TODO Auto-generated method stub
+//	super.addToHand(mailItem);
+}
+
+
+
+@Override
+public void addToTube(MailItem mailItem) throws ItemTooHeavyException {
+	// TODO Auto-generated method stub
+	assert(deliveryItem == null);
+	deliveryItem = mailItem;
+	if (deliveryItem.weight > INDIVIDUAL_MAX_WEIGHT) throw new ItemTooHeavyException();
+}
+
+
+
 private void moveTowards(int destination) {
     if(current_floor < destination){
         current_floor ++;
     } else {
-        current_floor ++;
+        current_floor --;
     }
 }
 

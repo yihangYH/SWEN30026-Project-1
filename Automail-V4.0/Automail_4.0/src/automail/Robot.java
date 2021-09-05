@@ -1,5 +1,8 @@
 package automail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import exceptions.ExcessiveDeliveryException;
 import exceptions.ItemTooHeavyException;
 import simulation.Clock;
@@ -10,10 +13,10 @@ import simulation.IMailDelivery;
  */
 public abstract class Robot {
 
-    private static final int INDIVIDUAL_MAX_WEIGHT = 2000;
+    protected static final int INDIVIDUAL_MAX_WEIGHT = 2000;
 
     protected IMailDelivery delivery;
-    protected String id;
+    protected  String id;
     /** Possible states the robot can be in */
     public enum RobotState { DELIVERING, WAITING, RETURNING }
     protected RobotState current_state;
@@ -26,7 +29,7 @@ public abstract class Robot {
     protected MailItem tube = null;
 
     protected int deliveryCounter;
-    
+    protected List<MailItem> tubeList = new ArrayList<MailItem>();
 
     /**
      * Initiates the robot's location at the start to be at the mailroom
