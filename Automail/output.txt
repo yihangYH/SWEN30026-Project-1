@@ -1,0 +1,16 @@
+Buildfile: C:\Users\bcjsp\Desktop\P1Validation2\P1Validation2\build.xml
+
+init:
+    [mkdir] Created dir: C:\Users\bcjsp\Desktop\P1Validation2\P1Validation2\tmp_unzipped\build
+
+compile:
+    [javac] C:\Users\bcjsp\Desktop\P1Validation2\P1Validation2\build.xml:32: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 18 source files to C:\Users\bcjsp\Desktop\P1Validation2\P1Validation2\tmp_unzipped\build
+
+dist:
+    [mkdir] Created dir: C:\Users\bcjsp\Desktop\P1Validation2\P1Validation2\tmp_unzipped\dist\lib
+      [jar] Building jar: C:\Users\bcjsp\Desktop\P1Validation2\P1Validation2\tmp_unzipped\dist\lib\Project1.jar
+
+BUILD SUCCESSFUL
+Total time: 1 second
+Default behaviour successful! 
